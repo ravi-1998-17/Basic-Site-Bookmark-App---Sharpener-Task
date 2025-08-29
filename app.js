@@ -8,18 +8,33 @@ function handleFormSubmit(evt) {
 
   let obj = { name, url };
 
-  axios
-    .post(
-      "https://crudcrud.com/api/78c9fb4b483c4224aeb14e7df8e2a627/bookmarks",
-      obj
-    )
-    .then((res) => {
-      console.log("POST success:", res.data);
-      displayBookmark(res.data);
-      evt.target.name.value = "";
-      evt.target.url.value = "";
-    })
-    .catch((err) => console.log(err));
+  if (editedSiteId) {
+    axios
+      .put(
+        `https://crudcrud.com/api/78c9fb4b483c4224aeb14e7df8e2a627/bookmarks/${editedSiteId}`,
+        obj
+      )
+      .then(() => {
+        refreshBookmarks();
+        evt.target.name.value = "";
+        evt.target.url.value = "";
+        editedSiteId = null;
+      })
+      .catch((err) => console.log(err));
+  } else {
+    axios
+      .post(
+        "https://crudcrud.com/api/78c9fb4b483c4224aeb14e7df8e2a627/bookmarks",
+        obj
+      )
+      .then((res) => {
+        console.log("POST success:", res.data);
+        displayBookmark(res.data);
+        evt.target.name.value = "";
+        evt.target.url.value = "";
+      })
+      .catch((err) => console.log(err));
+  }
 }
 
 function displayBookmark(data) {
@@ -46,16 +61,6 @@ function updateBookmark(data) {
   document.querySelector("#url").value = data.url;
 
   editedSiteId = data._id;
-
-  axios
-    .delete(
-      `https://crudcrud.com/api/78c9fb4b483c4224aeb14e7df8e2a627/bookmarks/${editedSiteId}`
-    )
-    .then(() => {
-      console.log("User Deleted for edit");
-      editedSiteId = null;
-    })
-    .catch((err) => console.log(err));
 }
 
 function deleteBookmark(id, li) {
@@ -64,18 +69,27 @@ function deleteBookmark(id, li) {
       `https://crudcrud.com/api/78c9fb4b483c4224aeb14e7df8e2a627/bookmarks/${id}`
     )
     .then(() => {
+      // Remove the list item from the DOM
       li.remove();
+      console.log(`Bookmark with id ${id} deleted successfully.`);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.error(`Failed to delete bookmark with id ${id}:`, err);
+      alert("Failed to delete bookmark. Please try again.");
+    });
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+function refreshBookmarks() {
   axios
     .get(`https://crudcrud.com/api/78c9fb4b483c4224aeb14e7df8e2a627/bookmarks/`)
     .then((res) => {
+      let ul = document.querySelector("#site-list");
+      ul.innerHTML = "";
       for (let list of res.data) {
         displayBookmark(list);
       }
     })
     .catch((err) => console.log(err));
-});
+}
+
+window.addEventListener("DOMContentLoaded", refreshBookmarks);
