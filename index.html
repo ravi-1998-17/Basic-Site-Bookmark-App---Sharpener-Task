@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Site Bookmark App</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">ADD BOOKMARK</h2>
+
+    <!-- Expense Form Card -->
+    <div class="card p-4 shadow-sm">
+      <form onsubmit="handleFormSubmit(event)">
+        
+        <div class="mb-3">
+          <label for="name" class="form-label">Website Name:</label>
+          <input type="text" class="form-control" id="name" name="name" required />
+        </div>
+
+        <div class="mb-3">
+          <label for="url" class="form-label">Website URL:</label>
+          <input type="url" class="form-control" id="url" name="url" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Add Data</button>
+      </form>
+    </div>
+
+    <div class="mt-4">
+      <h4>All Bookmarks:</h4>
+      <ul class="list-group" id="site-list">
+
+      </ul>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.11.0/axios.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
+
+<!-- // function handleFormSubmit(event) {
+//   event.preventDefault();
+
+//   let amount = event.target.amount.value;
+//   let description = event.target.description.value;
+//   let category = event.target.category.value;
+
+//   let expense = { amount, description, category };
+
+//   // save using unique key
+//   let key = description + "_" + Date.now();
+//   localStorage.setItem(key, JSON.stringify(expense));
+
+//   displayExpense(expense, key);
+
+//   event.target.reset();
+// }
+
+// function displayExpense(expense, key) {
+//   let ul = document.getElementById("expense-list");
+//   let li = document.createElement("li");
+//   li.className =
+//     "list-group-item d-flex justify-content-between align-items-center";
+
+//   li.innerHTML = `
+//     <span>${expense.amount} Rs - ${expense.description} [${expense.category}]</span>
+//     <div>
+//       <button class="btn btn-sm btn-warning me-2">Edit</button>
+//       <button class="btn btn-sm btn-danger">Delete</button>
+//     </div>
+//   `;
+
+//   // Delete button
+//   li.querySelector(".btn-danger").addEventListener("click", () => {
+//     li.remove();
+//     localStorage.removeItem(key);
+//   });
+
+//   // Edit button
+//   li.querySelector(".btn-warning").addEventListener("click", () => {
+//     document.getElementById("amount").value = expense.amount;
+//     document.getElementById("description").value = expense.description;
+//     document.getElementById("category").value = expense.category;
+
+//     // Remove old data first
+//     li.remove();
+//     localStorage.removeItem(key);
+//   });
+
+//   ul.appendChild(li);
+// }
+
+// function getExpensesFromLocalStorage() {
+//   for (let i = 0; i < localStorage.length; i++) {
+//     let key = localStorage.key(i);
+//     let expenseString = localStorage.getItem(key);
+//     try {
+//       let expenseObj = JSON.parse(expenseString);
+//       if (expenseObj.amount && expenseObj.description && expenseObj.category) {
+//         displayExpense(expenseObj, key);
+//       }
+//     } catch (e) {}
+//   }
+// }
+
+// window.onload = getExpensesFromLocalStorage;  -->
