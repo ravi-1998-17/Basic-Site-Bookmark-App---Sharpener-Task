@@ -62,19 +62,3 @@ li {
   align-items: flex-start;
 }
 
-.delete-btn {
-  align-self: flex-end;
-  background-color: tomato;
-  border: none;
-  border-radius: 2px;
-  padding: 5px 18px;
-}
-
-.edit-btn {
-  align-self: flex-end;
-  background-color: lightblue;
-  border: none;
-  border-radius: 2px;
-  padding: 5px 10px;
-  margin-top: 5px;
-}
