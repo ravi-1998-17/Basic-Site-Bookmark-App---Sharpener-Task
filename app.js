@@ -1,6 +1,6 @@
 let editedSiteId = null;
 
-function handleFromSubmit(evt) {
+function handleFormSubmit(evt) {
   evt.preventDefault();
 
   let name = evt.target.name.value;
@@ -13,7 +13,12 @@ function handleFromSubmit(evt) {
       "https://crudcrud.com/api/78c9fb4b483c4224aeb14e7df8e2a627/bookmarks",
       obj
     )
-    .then((res) => displayBookmark(res.data))
+    .then((res) => {
+      console.log("POST success:", res.data);
+      displayBookmark(res.data);
+      evt.target.name.value = "";
+      evt.target.url.value = "";
+    })
     .catch((err) => console.log(err));
 }
 
@@ -29,7 +34,7 @@ function displayBookmark(data) {
 
   let delBtn = document.createElement("button");
   delBtn.textContent = "Delete";
-  delBtn.addEventListener("click", () => deleteBookmark(data._id,  li));
+  delBtn.addEventListener("click", () => deleteBookmark(data._id, li));
 
   li.appendChild(editBtn);
   li.appendChild(delBtn);
@@ -59,21 +64,18 @@ function deleteBookmark(id, li) {
       `https://crudcrud.com/api/78c9fb4b483c4224aeb14e7df8e2a627/bookmarks/${id}`
     )
     .then(() => {
-        li.remove();
+      li.remove();
     })
     .catch((err) => console.log(err));
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-    axios
-      .get(
-        `https://crudcrud.com/api/78c9fb4b483c4224aeb14e7df8e2a627/bookmarks/`
-      )
-      .then((res) => {
-            for(let list of res.data){
-                displayBookmark(list);
-            }
-      })
-      .catch((err) => console.log(err));
-
-})
+window.addEventListener("DOMContentLoaded", () => {
+  axios
+    .get(`https://crudcrud.com/api/78c9fb4b483c4224aeb14e7df8e2a627/bookmarks/`)
+    .then((res) => {
+      for (let list of res.data) {
+        displayBookmark(list);
+      }
+    })
+    .catch((err) => console.log(err));
+});
