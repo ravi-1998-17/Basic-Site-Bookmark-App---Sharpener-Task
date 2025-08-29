@@ -1,5 +1,5 @@
 let editedSiteId = null;
-
+let api = 'https://crudcrud.com/api/0a886fbbb3ab4bbf8be03bd591947d2b/bookmarks/';
 function handleFormSubmit(evt) {
   evt.preventDefault();
 
@@ -11,7 +11,7 @@ function handleFormSubmit(evt) {
   if (editedSiteId) {
     axios
       .put(
-        `https://crudcrud.com/api/78c9fb4b483c4224aeb14e7df8e2a627/bookmarks/${editedSiteId}`,
+        `${api}${editedSiteId}`,
         obj
       )
       .then(() => {
@@ -23,10 +23,7 @@ function handleFormSubmit(evt) {
       .catch((err) => console.log(err));
   } else {
     axios
-      .post(
-        "https://crudcrud.com/api/78c9fb4b483c4224aeb14e7df8e2a627/bookmarks",
-        obj
-      )
+      .post(api,obj)
       .then((res) => {
         console.log("POST success:", res.data);
         displayBookmark(res.data);
@@ -66,7 +63,7 @@ function updateBookmark(data) {
 function deleteBookmark(id, li) {
   axios
     .delete(
-      `https://crudcrud.com/api/78c9fb4b483c4224aeb14e7df8e2a627/bookmarks/${id}`
+      `${api}${id}`
     )
     .then(() => {
       // Remove the list item from the DOM
@@ -81,7 +78,7 @@ function deleteBookmark(id, li) {
 
 function refreshBookmarks() {
   axios
-    .get(`https://crudcrud.com/api/78c9fb4b483c4224aeb14e7df8e2a627/bookmarks/`)
+    .get(api)
     .then((res) => {
       let ul = document.querySelector("#site-list");
       ul.innerHTML = "";
